@@ -16,13 +16,16 @@
 		D3D537D717823E4100B49EF5 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = D3D537D617823E4100B49EF5 /* Default.png */; };
 		D3D537D917823E4100B49EF5 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D3D537D817823E4100B49EF5 /* Default@2x.png */; };
 		D3D537DB17823E4100B49EF5 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D3D537DA17823E4100B49EF5 /* Default-568h@2x.png */; };
-		D3D537DE17823E4100B49EF5 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3D537DD17823E4100B49EF5 /* ViewController.m */; };
+		D3D537DE17823E4100B49EF5 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = D3D537DD17823E4100B49EF5 /* ViewController.mm */; };
 		D3D537E117823E4100B49EF5 /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D3D537DF17823E4100B49EF5 /* ViewController.xib */; };
 		D3D537E917823E4100B49EF5 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3D537E817823E4100B49EF5 /* SenTestingKit.framework */; };
 		D3D537EA17823E4100B49EF5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3D537C417823E4100B49EF5 /* UIKit.framework */; };
 		D3D537EB17823E4100B49EF5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3D537C617823E4100B49EF5 /* Foundation.framework */; };
 		D3D537F317823E4100B49EF5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D3D537F117823E4100B49EF5 /* InfoPlist.strings */; };
 		D3D537F617823E4100B49EF5 /* FaceCounterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3D537F517823E4100B49EF5 /* FaceCounterTests.m */; };
+		D3D53801178245B700B49EF5 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3D53800178245B700B49EF5 /* opencv2.framework */; };
+		D3D538031782462200B49EF5 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3D538021782462200B49EF5 /* CoreImage.framework */; };
+		D3D538051782466C00B49EF5 /* 144966965_b1a467d7eb_o.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D3D538041782466C00B49EF5 /* 144966965_b1a467d7eb_o.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,7 +53,7 @@
 		D3D537D817823E4100B49EF5 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		D3D537DA17823E4100B49EF5 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		D3D537DC17823E4100B49EF5 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		D3D537DD17823E4100B49EF5 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		D3D537DD17823E4100B49EF5 /* ViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewController.mm; sourceTree = "<group>"; };
 		D3D537E017823E4100B49EF5 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController.xib; sourceTree = "<group>"; };
 		D3D537E717823E4100B49EF5 /* FaceCounterTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FaceCounterTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3D537E817823E4100B49EF5 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -58,6 +61,9 @@
 		D3D537F217823E4100B49EF5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D3D537F417823E4100B49EF5 /* FaceCounterTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FaceCounterTests.h; sourceTree = "<group>"; };
 		D3D537F517823E4100B49EF5 /* FaceCounterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FaceCounterTests.m; sourceTree = "<group>"; };
+		D3D53800178245B700B49EF5 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = opencv2.framework; path = ../External/opencv2.framework; sourceTree = "<group>"; };
+		D3D538021782462200B49EF5 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
+		D3D538041782466C00B49EF5 /* 144966965_b1a467d7eb_o.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = 144966965_b1a467d7eb_o.jpg; path = ../../TestData/144966965_b1a467d7eb_o.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +71,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D3D538031782462200B49EF5 /* CoreImage.framework in Frameworks */,
+				D3D53801178245B700B49EF5 /* opencv2.framework in Frameworks */,
 				D3D537C517823E4100B49EF5 /* UIKit.framework in Frameworks */,
 				D3D537C717823E4100B49EF5 /* Foundation.framework in Frameworks */,
 				D3D537C917823E4100B49EF5 /* CoreGraphics.framework in Frameworks */,
@@ -106,6 +114,8 @@
 		D3D537C317823E4100B49EF5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D3D538021782462200B49EF5 /* CoreImage.framework */,
+				D3D53800178245B700B49EF5 /* opencv2.framework */,
 				D3D537C417823E4100B49EF5 /* UIKit.framework */,
 				D3D537C617823E4100B49EF5 /* Foundation.framework */,
 				D3D537C817823E4100B49EF5 /* CoreGraphics.framework */,
@@ -120,7 +130,7 @@
 				D3D537D317823E4100B49EF5 /* AppDelegate.h */,
 				D3D537D417823E4100B49EF5 /* AppDelegate.m */,
 				D3D537DC17823E4100B49EF5 /* ViewController.h */,
-				D3D537DD17823E4100B49EF5 /* ViewController.m */,
+				D3D537DD17823E4100B49EF5 /* ViewController.mm */,
 				D3D537DF17823E4100B49EF5 /* ViewController.xib */,
 				D3D537CB17823E4100B49EF5 /* Supporting Files */,
 			);
@@ -130,6 +140,7 @@
 		D3D537CB17823E4100B49EF5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D3D538041782466C00B49EF5 /* 144966965_b1a467d7eb_o.jpg */,
 				D3D537CC17823E4100B49EF5 /* FaceCounter-Info.plist */,
 				D3D537CD17823E4100B49EF5 /* InfoPlist.strings */,
 				D3D537D017823E4100B49EF5 /* main.m */,
@@ -237,6 +248,7 @@
 				D3D537D917823E4100B49EF5 /* Default@2x.png in Resources */,
 				D3D537DB17823E4100B49EF5 /* Default-568h@2x.png in Resources */,
 				D3D537E117823E4100B49EF5 /* ViewController.xib in Resources */,
+				D3D538051782466C00B49EF5 /* 144966965_b1a467d7eb_o.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -286,7 +298,7 @@
 			files = (
 				D3D537D117823E4100B49EF5 /* main.m in Sources */,
 				D3D537D517823E4100B49EF5 /* AppDelegate.m in Sources */,
-				D3D537DE17823E4100B49EF5 /* ViewController.m in Sources */,
+				D3D537DE17823E4100B49EF5 /* ViewController.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -395,6 +407,10 @@
 		D3D537FA17823E4100B49EF5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../External\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FaceCounter/FaceCounter-Prefix.pch";
 				INFOPLIST_FILE = "FaceCounter/FaceCounter-Info.plist";
@@ -406,6 +422,10 @@
 		D3D537FB17823E4100B49EF5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../External\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FaceCounter/FaceCounter-Prefix.pch";
 				INFOPLIST_FILE = "FaceCounter/FaceCounter-Info.plist";
