@@ -16,3 +16,5 @@ profile
 *.moved-aside
 DerivedData
 .idea/
+External/opencv2.framework
+External/opencv2.framework.zip
