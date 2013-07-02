@@ -26,6 +26,7 @@
 		D3D53801178245B700B49EF5 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3D53800178245B700B49EF5 /* opencv2.framework */; };
 		D3D538031782462200B49EF5 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3D538021782462200B49EF5 /* CoreImage.framework */; };
 		D3D538051782466C00B49EF5 /* 144966965_b1a467d7eb_o.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D3D538041782466C00B49EF5 /* 144966965_b1a467d7eb_o.jpg */; };
+		D3D5380B1782563200B49EF5 /* lbpcascade_frontalface.xml in Resources */ = {isa = PBXBuildFile; fileRef = D3D5380A1782563200B49EF5 /* lbpcascade_frontalface.xml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,7 @@
 		D3D53800178245B700B49EF5 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = opencv2.framework; path = ../External/opencv2.framework; sourceTree = "<group>"; };
 		D3D538021782462200B49EF5 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		D3D538041782466C00B49EF5 /* 144966965_b1a467d7eb_o.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = 144966965_b1a467d7eb_o.jpg; path = ../../TestData/144966965_b1a467d7eb_o.jpg; sourceTree = "<group>"; };
+		D3D5380A1782563200B49EF5 /* lbpcascade_frontalface.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = lbpcascade_frontalface.xml; path = ../../External/data/lbpcascades/lbpcascade_frontalface.xml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +142,7 @@
 		D3D537CB17823E4100B49EF5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D3D5380A1782563200B49EF5 /* lbpcascade_frontalface.xml */,
 				D3D538041782466C00B49EF5 /* 144966965_b1a467d7eb_o.jpg */,
 				D3D537CC17823E4100B49EF5 /* FaceCounter-Info.plist */,
 				D3D537CD17823E4100B49EF5 /* InfoPlist.strings */,
@@ -249,6 +252,7 @@
 				D3D537DB17823E4100B49EF5 /* Default-568h@2x.png in Resources */,
 				D3D537E117823E4100B49EF5 /* ViewController.xib in Resources */,
 				D3D538051782466C00B49EF5 /* 144966965_b1a467d7eb_o.jpg in Resources */,
+				D3D5380B1782563200B49EF5 /* lbpcascade_frontalface.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

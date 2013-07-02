@@ -2,7 +2,7 @@
 
 set -x
 
-FRAMEWORK_URL="http://sourceforge.net/projects/opencvlibrary/files/opencv-ios/2.4.5/opencv2.framework.zip/download"
+FRAMEWORK_URL="http://sourceforge.net/projects/opencvlibrary/files/opencv-ios/2.4.6/opencv2.framework.zip/download"
 FRAMEWORKZIPFILE="opencv2.framework.zip"
 FRAMEWORKHEADERFILE="opencv2.framework/Headers/opencv.hpp"
 
