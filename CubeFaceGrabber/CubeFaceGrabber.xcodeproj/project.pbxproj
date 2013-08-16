@@ -24,9 +24,8 @@
 		D3DE509217BDD5780007FB39 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D3DE509017BDD5780007FB39 /* InfoPlist.strings */; };
 		D3DE509517BDD5780007FB39 /* CubeFaceGrabberTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D3DE509417BDD5780007FB39 /* CubeFaceGrabberTests.m */; };
 		D3DE509F17BDD59F0007FB39 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3DE509E17BDD59F0007FB39 /* opencv2.framework */; };
-		D3DE50A117BDD5D50007FB39 /* HPIM4017.JPG in Resources */ = {isa = PBXBuildFile; fileRef = D3DE50A017BDD5D50007FB39 /* HPIM4017.JPG */; };
-		D3DE50A217BDD5DD0007FB39 /* HPIM4017.JPG in Resources */ = {isa = PBXBuildFile; fileRef = D3DE50A017BDD5D50007FB39 /* HPIM4017.JPG */; };
 		D3DE50A417BDD6730007FB39 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3DE50A317BDD6730007FB39 /* QuartzCore.framework */; };
+		D3DE50A617BDDFE90007FB39 /* IMG_1290.JPG in Resources */ = {isa = PBXBuildFile; fileRef = D3DE50A517BDDFE90007FB39 /* IMG_1290.JPG */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,8 +62,8 @@
 		D3DE509317BDD5780007FB39 /* CubeFaceGrabberTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CubeFaceGrabberTests.h; sourceTree = "<group>"; };
 		D3DE509417BDD5780007FB39 /* CubeFaceGrabberTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CubeFaceGrabberTests.m; sourceTree = "<group>"; };
 		D3DE509E17BDD59F0007FB39 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = opencv2.framework; path = ../External/opencv2.framework; sourceTree = "<group>"; };
-		D3DE50A017BDD5D50007FB39 /* HPIM4017.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = HPIM4017.JPG; path = ../../TestData/HPIM4017.JPG; sourceTree = "<group>"; };
 		D3DE50A317BDD6730007FB39 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		D3DE50A517BDDFE90007FB39 /* IMG_1290.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = IMG_1290.JPG; path = ../../TestData/IMG_1290.JPG; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,7 +140,7 @@
 		D3DE506A17BDD5780007FB39 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				D3DE50A017BDD5D50007FB39 /* HPIM4017.JPG */,
+				D3DE50A517BDDFE90007FB39 /* IMG_1290.JPG */,
 				D3DE506B17BDD5780007FB39 /* CubeFaceGrabber-Info.plist */,
 				D3DE506C17BDD5780007FB39 /* InfoPlist.strings */,
 				D3DE506F17BDD5780007FB39 /* main.m */,
@@ -248,7 +247,7 @@
 				D3DE507817BDD5780007FB39 /* Default@2x.png in Resources */,
 				D3DE507A17BDD5780007FB39 /* Default-568h@2x.png in Resources */,
 				D3DE508017BDD5780007FB39 /* ViewController.xib in Resources */,
-				D3DE50A117BDD5D50007FB39 /* HPIM4017.JPG in Resources */,
+				D3DE50A617BDDFE90007FB39 /* IMG_1290.JPG in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,7 +256,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D3DE509217BDD5780007FB39 /* InfoPlist.strings in Resources */,
-				D3DE50A217BDD5DD0007FB39 /* HPIM4017.JPG in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

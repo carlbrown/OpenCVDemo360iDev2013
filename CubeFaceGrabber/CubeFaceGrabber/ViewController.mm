@@ -73,7 +73,7 @@ using namespace cv;
     CGContextRelease(contextRef);
         
     cv::Mat dst, cdst;
-    Canny(cvMat, dst, 50, 200, 3);
+    Canny(cvMat, dst, 100, 200, 3);
     cvtColor(dst, cdst, CV_GRAY2BGR);
 
     vector<Vec4i> lines;
