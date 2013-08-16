@@ -101,8 +101,10 @@ int LineIntersect(Vec4i l1, Vec4i l2)
 }
 
 
+
 - (IBAction)detectFacesPressed:(id)sender {
     
+    //Conversion from http://stackoverflow.com/a/10254561
     CGColorSpaceRef colorSpace = CGImageGetColorSpace(self.imageView.image.CGImage);
     CGFloat cols = self.imageView.image.size.width;
     CGFloat rows = self.imageView.image.size.height;
@@ -120,7 +122,9 @@ int LineIntersect(Vec4i l1, Vec4i l2)
     
     CGContextDrawImage(contextRef, CGRectMake(0, 0, cols, rows), self.imageView.image.CGImage);
     CGContextRelease(contextRef);
-        
+    
+    // Hough Line Transform example from
+    //From http://docs.opencv.org/doc/tutorials/imgproc/imgtrans/hough_lines/hough_lines.html
     cv::Mat dst, ddst, cdst;
     Canny(cvMat, dst, 100, 200, 3);
     cvtColor(dst, cdst, CV_GRAY2BGR);
@@ -143,7 +147,7 @@ int LineIntersect(Vec4i l1, Vec4i l2)
                 if (LineIntersect(l, l2)) {
                     line( cdst, cv::Point(l[0], l[1]), cv::Point(l[2], l[3]), Scalar(0,0,255), 3, CV_AA);
                     line( cvMat, cv::Point(l[0], l[1]), cv::Point(l[2], l[3]), Scalar(0,0,255), 3, CV_AA);
-                    //Check for bounding corners
+                    //Check for bounding corners (from Carl)
                     if (sqrt(l[0]*l[0]+l[1]*l[1]) < sqrt(ul.x*ul.x+ul.y*ul.y)) {
                         ul = cv::Point(l[0],l[1]);
                     }
