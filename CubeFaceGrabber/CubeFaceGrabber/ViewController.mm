@@ -11,6 +11,8 @@
 #import <opencv2/opencv.hpp>
 #import <math.h>
 
+#define EPS 0.1
+
 using namespace std;
 using namespace cv;
 
@@ -51,6 +53,53 @@ using namespace cv;
     
 }
 
+/*
+ Determine the intersection point of two line segments
+ Return FALSE if the lines don't intersect
+ 
+ Adapted from http://paulbourke.net/geometry/pointlineplane/pdb.c
+ 
+ */
+int LineIntersect(Vec4i l1, Vec4i l2)
+{
+    
+    double x1=l1[0];
+    double x2=l1[2];
+    double x3=l2[0];
+    double x4=l2[2];
+    
+    
+    double y1=l1[1];
+    double y2=l1[3];
+    double y3=l2[1];
+    double y4=l2[3];
+    
+    double mua,mub;
+    double denom,numera,numerb;
+    
+    denom  = (y4-y3) * (x2-x1) - (x4-x3) * (y2-y1);
+    numera = (x4-x3) * (y1-y3) - (y4-y3) * (x1-x3);
+    numerb = (x2-x1) * (y1-y3) - (y2-y1) * (x1-x3);
+    
+    /* Are the line coincident? */
+    if (ABS(numera) < EPS && ABS(numerb) < EPS && ABS(denom) < EPS) {
+        return(FALSE);
+    }
+    
+    /* Are the line parallel-ish */
+    if (ABS(denom) < 1.0) {
+        return(TRUE);
+    }
+    
+    /* Is the intersection along the the segments */
+    mua = numera / denom;
+    mub = numerb / denom;
+    if (mua < -0.1 || mua > 1.1 || mub < -0.1 || mub > 1.1) {
+        return(FALSE);
+    }
+    return(TRUE);
+}
+
 
 - (IBAction)detectFacesPressed:(id)sender {
     
@@ -72,36 +121,83 @@ using namespace cv;
     CGContextDrawImage(contextRef, CGRectMake(0, 0, cols, rows), self.imageView.image.CGImage);
     CGContextRelease(contextRef);
         
-    cv::Mat dst, cdst;
+    cv::Mat dst, ddst, cdst;
     Canny(cvMat, dst, 100, 200, 3);
     cvtColor(dst, cdst, CV_GRAY2BGR);
 
     vector<Vec4i> lines;
     HoughLinesP(dst, lines, 1, CV_PI/180, 50, 50, 10 );
+    
+    //Defaults for the corners - use as far away as possible, as we want min
+    cv::Point ul = cv::Point(cvMat.cols, cvMat.rows); //upper left
+    cv::Point ur = cv::Point(0, cvMat.rows); //upper right
+    cv::Point ll = cv::Point(cvMat.cols, 0); //lower left
+    cv::Point lr = cv::Point(0, 0); //lower right
+
     for( size_t i = 0; i < lines.size(); i++ )
     {
         Vec4i l = lines[i];
-        line( cvMat, cv::Point(l[0], l[1]), cv::Point(l[2], l[3]), Scalar(0,0,255), 3, CV_AA);
-//        float rise=l[3]-l[1];
-//        float run=l[2]-l[0];
-//        float angle=atan(rise/run);
-//        CGRect frame = CGRectMake(0, 0, sqrt(rise*rise+run*run), 2);
-//        
-//        UIView* lineView = [[UIView alloc] initWithFrame:frame];
-//        CGAffineTransform rotate = CGAffineTransformMakeRotation(angle);
-//        CGAffineTransform scale = CGAffineTransformMakeScale([self contentScaleFactor], [self contentScaleFactor]);
-//        CGAffineTransform translate = CGAffineTransformConcat(scale, CGAffineTransformMakeTranslation(l[0], l[1]));
-//
-//        lineView.transform = CGAffineTransformConcat(scale,CGAffineTransformConcat(translate, rotate));
-//        
-//        // add a border around the newly created UIView
-//        lineView.layer.borderWidth = 2;
-//        lineView.layer.borderColor = [[UIColor redColor] CGColor];
-//        
-//        // add the new view to create a box around the face
-//        [self.imageView addSubview:lineView];
-
+        for (size_t i2 = 0; i2 < lines.size(); i2++ ) {
+            if (i != i2) {
+                Vec4i l2=lines[i2];
+                if (LineIntersect(l, l2)) {
+                    line( cdst, cv::Point(l[0], l[1]), cv::Point(l[2], l[3]), Scalar(0,0,255), 3, CV_AA);
+                    line( cvMat, cv::Point(l[0], l[1]), cv::Point(l[2], l[3]), Scalar(0,0,255), 3, CV_AA);
+                    //Check for bounding corners
+                    if (sqrt(l[0]*l[0]+l[1]*l[1]) < sqrt(ul.x*ul.x+ul.y*ul.y)) {
+                        ul = cv::Point(l[0],l[1]);
+                    }
+                    if (sqrt((cvMat.cols -l[0])*(cvMat.cols -l[0])+l[1]*l[1]) < sqrt((cvMat.cols -ur.x)*(cvMat.cols -ur.x)+ur.y*ur.y)) {
+                        ur = cv::Point(l[0],l[1]);
+                    }
+                    if (sqrt(l[0]*l[0]+(cvMat.rows -l[1])*(cvMat.rows -l[1])) < sqrt(ll.x*ll.x+(cvMat.rows -ll.y)*(cvMat.rows -ll.y))) {
+                        ll = cv::Point(l[0],l[1]);
+                    }
+                    if (sqrt((cvMat.cols -l[0])*(cvMat.cols -l[0])+(cvMat.rows -l[1])*(cvMat.rows -l[1])) < sqrt((cvMat.cols -lr.x)*(cvMat.cols -lr.x)+(cvMat.rows -lr.y)*(cvMat.rows -lr.y))) {
+                        lr = cv::Point(l[0],l[1]);
+                    }
+                    if (sqrt(l[2]*l[2]+l[3]*l[3]) < sqrt(ul.x*ul.x+ul.y*ul.y)) {
+                        ul = cv::Point(l[2],l[3]);
+                    }
+                    if (sqrt((cvMat.cols -l[2])*(cvMat.cols -l[2])+l[3]*l[3]) < sqrt((cvMat.cols -ur.x)*(cvMat.cols -ur.x)+ur.y*ur.y)) {
+                        ur = cv::Point(l[2],l[3]);
+                    }
+                    if (sqrt(l[2]*l[2]+(cvMat.rows -l[3])*(cvMat.rows -l[3])) < sqrt(ll.x*ll.x+(cvMat.rows -ll.y)*(cvMat.rows -ll.y))) {
+                        ll = cv::Point(l[2],l[3]);
+                    }
+                    if (sqrt((cvMat.cols -l[2])*(cvMat.cols -l[2])+(cvMat.rows -l[3])*(cvMat.rows -l[3])) < sqrt((cvMat.cols -lr.x)*(cvMat.cols -lr.x)+(cvMat.rows -lr.y)*(cvMat.rows -lr.y))) {
+                        lr = cv::Point(l[2],l[3]);
+                    }
+                    break;
+                }
+            }
+        }
     }
+    
+    circle( cvMat,
+           ul,
+           12.0,
+           Scalar( 0, 255, 0 ),
+           1,
+           8 );
+    circle( cvMat,
+           ur,
+           12.0,
+           Scalar( 0, 255, 0 ),
+           1,
+           8 );
+    circle( cvMat,
+           ll,
+           12.0,
+           Scalar( 0, 255, 0 ),
+           1,
+           8 );
+    circle( cvMat,
+           lr,
+           12.0,
+           Scalar( 0, 255, 0 ),
+           1,
+           8 );
 
     NSData *data = [NSData dataWithBytes:cvMat.data length:cvMat.elemSize() * cvMat.total()];
         
