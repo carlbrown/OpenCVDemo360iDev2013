@@ -16,9 +16,11 @@
 using namespace std;
 using namespace cv;
 
+
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
-
+@property (strong, nonatomic) UIImage *originalImage;
+@property (strong, nonatomic) NSArray *cubeCorners;
 @end
 
 @implementation ViewController
@@ -27,6 +29,13 @@ using namespace cv;
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+}
+
+-(void) viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    self.originalImage = self.imageView.image;
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -105,6 +114,7 @@ int LineIntersect(Vec4i l1, Vec4i l2)
 - (IBAction)detectFacesPressed:(id)sender {
     
     //Conversion from http://stackoverflow.com/a/10254561
+    //See Also http://stackoverflow.com/a/14336157 for orientation
     CGColorSpaceRef colorSpace = CGImageGetColorSpace(self.imageView.image.CGImage);
     CGFloat cols = self.imageView.image.size.width;
     CGFloat rows = self.imageView.image.size.height;
@@ -123,6 +133,7 @@ int LineIntersect(Vec4i l1, Vec4i l2)
     CGContextDrawImage(contextRef, CGRectMake(0, 0, cols, rows), self.imageView.image.CGImage);
     CGContextRelease(contextRef);
     
+    
     // Hough Line Transform example from
     //From http://docs.opencv.org/doc/tutorials/imgproc/imgtrans/hough_lines/hough_lines.html
     cv::Mat dst, ddst, cdst;
@@ -132,11 +143,11 @@ int LineIntersect(Vec4i l1, Vec4i l2)
     vector<Vec4i> lines;
     HoughLinesP(dst, lines, 1, CV_PI/180, 50, 50, 10 );
     
-    //Defaults for the corners - use as far away as possible, as we want min
-    cv::Point ul = cv::Point(cvMat.cols, cvMat.rows); //upper left
-    cv::Point ur = cv::Point(0, cvMat.rows); //upper right
-    cv::Point ll = cv::Point(cvMat.cols, 0); //lower left
-    cv::Point lr = cv::Point(0, 0); //lower right
+    //Defaults for the corners - use far away initial value, as we want min
+    cv::Point ul = cv::Point(cvMat.cols/2.0f, cvMat.rows/2.0f); //upper left -> center
+    cv::Point ur = cv::Point(cvMat.cols/2.0f, cvMat.rows/2.0f); //upper right -> center
+    cv::Point ll = cv::Point(cvMat.cols/2.0f, cvMat.rows/2.0f); //lower left -> center
+    cv::Point lr = cv::Point(cvMat.cols/2.0f, cvMat.rows/2.0f); //lower right -> center
 
     for( size_t i = 0; i < lines.size(); i++ )
     {
@@ -187,19 +198,19 @@ int LineIntersect(Vec4i l1, Vec4i l2)
     circle( cvMat,
            ur,
            12.0,
-           Scalar( 0, 255, 0 ),
+           Scalar( 0, 155, 100 ),
            1,
            8 );
     circle( cvMat,
            ll,
            12.0,
-           Scalar( 0, 255, 0 ),
+           Scalar( 255, 0, 0 ),
            1,
            8 );
     circle( cvMat,
            lr,
            12.0,
-           Scalar( 0, 255, 0 ),
+           Scalar( 155, 0, 100 ),
            1,
            8 );
 
@@ -231,6 +242,116 @@ int LineIntersect(Vec4i l1, Vec4i l2)
     CGColorSpaceRelease(colorSpace);
 
     [self.imageView setImage:newImage];
+    
+    self.cubeCorners = @[
+                         [NSNumber numberWithFloat:ul.x],
+                         [NSNumber numberWithFloat:ul.y],
+                         [NSNumber numberWithFloat:ur.x],
+                         [NSNumber numberWithFloat:ur.y],
+                         [NSNumber numberWithFloat:ll.x],
+                         [NSNumber numberWithFloat:ll.y],
+                         [NSNumber numberWithFloat:lr.x],
+                         [NSNumber numberWithFloat:lr.y]
+                         ];
 
 }
+- (IBAction)getAndApplyTransformPressed:(id)sender {
+        
+    CGColorSpaceRef colorSpace = CGImageGetColorSpace(self.originalImage.CGImage);
+    CGFloat cols = self.originalImage.size.width;
+    CGFloat rows = self.originalImage.size.height;
+    
+    cv::Mat originalMat = Mat::zeros(rows, cols, CV_8UC4);
+    
+    cv::Mat cvMat(rows, cols, CV_8UC4); // 8 bits per component, 4 channels
+    
+    CGContextRef contextRef = CGBitmapContextCreate(originalMat.data,                 // Pointer to backing data
+                                                    cols,                      // Width of bitmap
+                                                    rows,                     // Height of bitmap
+                                                    8,                          // Bits per component
+                                                    originalMat.step[0],              // Bytes per row
+                                                    colorSpace,                 // Colorspace
+                                                    kCGImageAlphaNoneSkipLast |
+                                                    kCGBitmapByteOrderDefault); // Bitmap info flags
+    
+    CGContextDrawImage(contextRef, CGRectMake(0, 0, cols, rows), self.originalImage.CGImage);
+    CGContextRelease(contextRef);
+
+    Point2f src[4];
+    Point2f dst[4];
+
+    src[0]=cv::Point([self.cubeCorners[0] floatValue],[self.cubeCorners[1] floatValue]); //upper left
+    src[1]=cv::Point([self.cubeCorners[2] floatValue],[self.cubeCorners[3] floatValue]); //upper right
+    src[2]=cv::Point([self.cubeCorners[4] floatValue],[self.cubeCorners[5] floatValue]); //lower left
+    src[3]=cv::Point([self.cubeCorners[6] floatValue],[self.cubeCorners[7] floatValue]); //lower right
+    
+    dst[0]=cv::Point(0,0);
+    dst[1]=cv::Point(cols,0);
+    dst[2]=cv::Point(0,rows);
+    dst[3]=cv::Point(cols,rows);
+    
+    cv::Mat transform = cv::getPerspectiveTransform(src, dst);
+    
+    cv::Mat transformedimage = Mat::zeros( originalMat.rows, originalMat.cols, originalMat.type() );
+    
+    cv::warpPerspective(originalMat, transformedimage, transform, transformedimage.size() );
+
+    
+    NSData *data = [NSData dataWithBytes:transformedimage.data length:transformedimage.elemSize() * transformedimage.total()];
+    
+    if (transformedimage.elemSize() == 1) {
+        colorSpace = CGColorSpaceCreateDeviceGray();
+    } else {
+        colorSpace = CGColorSpaceCreateDeviceRGB();
+    }
+    
+    CGDataProviderRef provider = CGDataProviderCreateWithCFData((__bridge CFDataRef)data);
+    
+    CGImageRef imageRef = CGImageCreate(transformedimage.cols,                                     // Width
+                                        transformedimage.rows,                                     // Height
+                                        8,                                              // Bits per component
+                                        8 * transformedimage.elemSize(),                           // Bits per pixel
+                                        transformedimage.step[0],                                  // Bytes per row
+                                        colorSpace,                                     // Colorspace
+                                        kCGImageAlphaNone | kCGBitmapByteOrderDefault,  // Bitmap info flags
+                                        provider,                                       // CGDataProviderRef
+                                        NULL,                                           // Decode
+                                        false,                                          // Should interpolate
+                                        kCGRenderingIntentDefault);                     // Intent
+    
+    UIImage *newImage = [[UIImage alloc] initWithCGImage:imageRef];
+    CGImageRelease(imageRef);
+    CGDataProviderRelease(provider);
+    CGColorSpaceRelease(colorSpace);
+    
+    [self.imageView setImage:newImage];
+
+}
+
+- (IBAction)extractColorsPressed:(id)sender {
+    CGColorSpaceRef colorSpace = CGImageGetColorSpace(self.originalImage.CGImage);
+    CGFloat cols = self.originalImage.size.width;
+    CGFloat rows = self.originalImage.size.height;
+    
+    cv::Mat facesMat = Mat::zeros(rows, cols, CV_8UC4);
+    
+    cv::Mat cvMat(rows, cols, CV_8UC4); // 8 bits per component, 4 channels
+    
+    CGContextRef contextRef = CGBitmapContextCreate(facesMat.data,                 // Pointer to backing data
+                                                    cols,                      // Width of bitmap
+                                                    rows,                     // Height of bitmap
+                                                    8,                          // Bits per component
+                                                    facesMat.step[0],              // Bytes per row
+                                                    colorSpace,                 // Colorspace
+                                                    kCGImageAlphaNoneSkipLast |
+                                                    kCGBitmapByteOrderDefault); // Bitmap info flags
+    
+    CGContextDrawImage(contextRef, CGRectMake(0, 0, cols, rows), self.originalImage.CGImage);
+    CGContextRelease(contextRef);
+    
+    //Get Average color from http://answers.opencv.org/question/10758/get-the-average-color-of-image-inside-the/
+    
+
+}
+
 @end
