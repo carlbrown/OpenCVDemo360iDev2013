@@ -20,6 +20,7 @@ using namespace cv;
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (strong, nonatomic) UIImage *originalImage;
+@property (strong, nonatomic) UIImage *perspectiveShiftedImage;
 @property (strong, nonatomic) NSArray *cubeCorners;
 @end
 
@@ -260,10 +261,8 @@ int LineIntersect(Vec4i l1, Vec4i l2)
     CGColorSpaceRef colorSpace = CGImageGetColorSpace(self.originalImage.CGImage);
     CGFloat cols = self.originalImage.size.width;
     CGFloat rows = self.originalImage.size.height;
-    
-    cv::Mat originalMat = Mat::zeros(rows, cols, CV_8UC4);
-    
-    cv::Mat cvMat(rows, cols, CV_8UC4); // 8 bits per component, 4 channels
+        
+    cv::Mat originalMat(rows, cols, CV_8UC4); // 8 bits per component, 4 channels
     
     CGContextRef contextRef = CGBitmapContextCreate(originalMat.data,                 // Pointer to backing data
                                                     cols,                      // Width of bitmap
@@ -319,23 +318,21 @@ int LineIntersect(Vec4i l1, Vec4i l2)
                                         false,                                          // Should interpolate
                                         kCGRenderingIntentDefault);                     // Intent
     
-    UIImage *newImage = [[UIImage alloc] initWithCGImage:imageRef];
+    self.perspectiveShiftedImage = [[UIImage alloc] initWithCGImage:imageRef];
     CGImageRelease(imageRef);
     CGDataProviderRelease(provider);
     CGColorSpaceRelease(colorSpace);
     
-    [self.imageView setImage:newImage];
+    [self.imageView setImage:self.perspectiveShiftedImage];
 
 }
 
 - (IBAction)extractColorsPressed:(id)sender {
-    CGColorSpaceRef colorSpace = CGImageGetColorSpace(self.originalImage.CGImage);
-    CGFloat cols = self.originalImage.size.width;
-    CGFloat rows = self.originalImage.size.height;
-    
-    cv::Mat facesMat = Mat::zeros(rows, cols, CV_8UC4);
-    
-    cv::Mat cvMat(rows, cols, CV_8UC4); // 8 bits per component, 4 channels
+    CGColorSpaceRef colorSpace = CGImageGetColorSpace(self.self.perspectiveShiftedImage.CGImage);
+    CGFloat cols = self.self.perspectiveShiftedImage.size.width;
+    CGFloat rows = self.self.perspectiveShiftedImage.size.height;
+        
+    cv::Mat facesMat(rows, cols, CV_8UC4); // 8 bits per component, 4 channels
     
     CGContextRef contextRef = CGBitmapContextCreate(facesMat.data,                 // Pointer to backing data
                                                     cols,                      // Width of bitmap
@@ -346,12 +343,72 @@ int LineIntersect(Vec4i l1, Vec4i l2)
                                                     kCGImageAlphaNoneSkipLast |
                                                     kCGBitmapByteOrderDefault); // Bitmap info flags
     
-    CGContextDrawImage(contextRef, CGRectMake(0, 0, cols, rows), self.originalImage.CGImage);
+    CGContextDrawImage(contextRef, CGRectMake(0, 0, cols, rows), self.self.perspectiveShiftedImage.CGImage);
     CGContextRelease(contextRef);
     
+    //Convert to HSV to make it easier to see colors
+    cv::Mat fullImageHSV;
+    cvtColor(facesMat, fullImageHSV, CV_RGB2HSV);
+
     //Get Average color from http://answers.opencv.org/question/10758/get-the-average-color-of-image-inside-the/
     
+    int subCubeWidth = cols/3;
+    int subCubeHeight = rows /3;
+    int marginX=subCubeWidth/5;
+    int marginY=subCubeHeight/5;
+    int roiWidth = subCubeWidth - 2* marginX;
+    int roiHeight = subCubeHeight - 2* marginY;
+    
+    //Extraction here from http://opencv-users.1802565.n2.nabble.com/Assign-a-value-to-an-ROI-in-a-Mat-td4540333.html
+    for (int hSlice=0; hSlice<3; hSlice++) {
+        for (int vSlice= 0; vSlice<3; vSlice++) {
+            cv::Rect r(marginX+subCubeWidth*hSlice, marginY+subCubeHeight*vSlice, roiWidth, roiHeight);
+            Mat roi(fullImageHSV,r);
+            cv::Scalar avgColor=cv::mean(roi); //Average Color
+            roi = avgColor;
+            //Put text from http://stackoverflow.com/questions/5175628/how-to-overlay-text-on-image-when-working-with-cvmat-type
+            if (avgColor[1] < 10) {
+                //No Saturation - must be white
+                cv::putText(roi, [[NSString stringWithFormat:@"White@%d,%d",hSlice,vSlice] cStringUsingEncoding:NSASCIIStringEncoding], cvPoint(0,30),
+                            FONT_HERSHEY_COMPLEX_SMALL, 0.8, cvScalar(0,0,0), 1, CV_AA);
+            } else {
+                cv::putText(roi, [[NSString stringWithFormat:@"%d,%d=%.0f",hSlice,vSlice,avgColor[0]] cStringUsingEncoding:NSASCIIStringEncoding], cvPoint(0,30),
+                            FONT_HERSHEY_COMPLEX_SMALL, 0.6, cvScalar(200,200,200), 1, CV_AA);
+            }
+        }
+    }
+    
+    //Convert Back to RGB to display to make it easier to see colors
+    cv::Mat fullImageRGB;
+    cvtColor(fullImageHSV, fullImageRGB, CV_HSV2RGB);
 
+    
+    NSData *data = [NSData dataWithBytes:fullImageRGB.data length:fullImageRGB.elemSize() * fullImageRGB.total()];
+    
+    colorSpace = CGColorSpaceCreateDeviceRGB();
+    
+    CGDataProviderRef provider = CGDataProviderCreateWithCFData((__bridge CFDataRef)data);
+    
+    CGImageRef imageRef = CGImageCreate(fullImageRGB.cols,                                     // Width
+                                        fullImageRGB.rows,                                     // Height
+                                        8,                                              // Bits per component
+                                        8 * fullImageRGB.elemSize(),                           // Bits per pixel
+                                        fullImageRGB.step[0],                                  // Bytes per row
+                                        colorSpace,                                     // Colorspace
+                                        kCGImageAlphaNone | kCGBitmapByteOrderDefault,  // Bitmap info flags
+                                        provider,                                       // CGDataProviderRef
+                                        NULL,                                           // Decode
+                                        false,                                          // Should interpolate
+                                        kCGRenderingIntentDefault);                     // Intent
+    
+    UIImage *newImage = [[UIImage alloc] initWithCGImage:imageRef];
+    CGImageRelease(imageRef);
+    CGDataProviderRelease(provider);
+    CGColorSpaceRelease(colorSpace);
+    
+    [self.imageView setImage:newImage];
+    
+    
 }
 
 @end
