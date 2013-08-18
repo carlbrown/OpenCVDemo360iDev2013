@@ -10,6 +10,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import <opencv2/opencv.hpp>
 #import <math.h>
+#import "Tesseract.h"
 
 #define EPS 0.1
 
@@ -324,6 +325,90 @@ int LineIntersect(Vec4i l1, Vec4i l2)
     
     [self.imageView setImage:self.perspectiveShiftedImage];
     
+
+}
+- (IBAction)extractPressed:(id)sender {
+    
+    CGColorSpaceRef colorSpace = CGImageGetColorSpace(self.perspectiveShiftedImage.CGImage);
+    CGFloat cols = self.perspectiveShiftedImage.size.width;
+    CGFloat rows = self.perspectiveShiftedImage.size.height;
+    
+    cv::Mat shiftedMat(rows, cols, CV_8UC4); // 8 bits per component, 4 channels
+    
+    CGContextRef contextRef = CGBitmapContextCreate(shiftedMat.data,                 // Pointer to backing data
+                                                    cols,                      // Width of bitmap
+                                                    rows,                     // Height of bitmap
+                                                    8,                          // Bits per component
+                                                    shiftedMat.step[0],              // Bytes per row
+                                                    colorSpace,                 // Colorspace
+                                                    kCGImageAlphaNoneSkipLast |
+                                                    kCGBitmapByteOrderDefault); // Bitmap info flags
+    
+    CGContextDrawImage(contextRef, CGRectMake(0, 0, cols, rows), self.perspectiveShiftedImage.CGImage);
+    CGContextRelease(contextRef);
+    
+
+    cv::Mat blankMat = Mat::zeros(rows, cols, shiftedMat.type());
+    blankMat.setTo(cv::Scalar(140,120,120));
+    
+    int subCubeWidth = cols/9;
+    int subCubeHeight = rows /9;
+    int marginX=subCubeWidth/6;
+    int marginY=subCubeHeight/6;
+    int roiWidth = subCubeWidth - 2* marginX;
+    int roiHeight = subCubeHeight - 2* marginY;
+    
+    //Extraction here from http://opencv-users.1802565.n2.nabble.com/Assign-a-value-to-an-ROI-in-a-Mat-td4540333.html
+    for (int hSlice=0; hSlice<9; hSlice++) {
+        for (int vSlice= 0; vSlice<9; vSlice++) {
+            cv::Rect r(marginX+subCubeWidth*hSlice, marginY+subCubeHeight*vSlice, roiWidth, roiHeight);
+            Mat roi(shiftedMat,r);
+
+            Mat dst_roi = blankMat(r);
+            roi.copyTo(dst_roi);
+
+        }
+    }
+    
+    NSData *data = [NSData dataWithBytes:blankMat.data length:blankMat.elemSize() * blankMat.total()];
+    
+    if (blankMat.elemSize() == 1) {
+        colorSpace = CGColorSpaceCreateDeviceGray();
+    } else {
+        colorSpace = CGColorSpaceCreateDeviceRGB();
+    }
+    
+    CGDataProviderRef provider = CGDataProviderCreateWithCFData((__bridge CFDataRef)data);
+    
+    CGImageRef imageRef = CGImageCreate(blankMat.cols,                                     // Width
+                                        blankMat.rows,                                     // Height
+                                        8,                                              // Bits per component
+                                        8 * blankMat.elemSize(),                           // Bits per pixel
+                                        blankMat.step[0],                                  // Bytes per row
+                                        colorSpace,                                     // Colorspace
+                                        kCGImageAlphaNone | kCGBitmapByteOrderDefault,  // Bitmap info flags
+                                        provider,                                       // CGDataProviderRef
+                                        NULL,                                           // Decode
+                                        false,                                          // Should interpolate
+                                        kCGRenderingIntentDefault);                     // Intent
+    
+    UIImage *newImage = [[UIImage alloc] initWithCGImage:imageRef];
+    CGImageRelease(imageRef);
+    CGDataProviderRelease(provider);
+    CGColorSpaceRelease(colorSpace);
+    
+    [self.imageView setImage:newImage];
+
+#warning Must get data from http://code.google.com/p/tesseract-ocr/downloads/list
+    Tesseract* tesseract = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"eng"];
+    //language are used for recognition. Ex: eng. Tesseract will search for a eng.traineddata file in the dataPath directory.
+    //eng.traineddata is in your "tessdata" folder.
+    
+    [tesseract setVariableValue:@"0123456789" forKey:@"tessedit_char_whitelist"]; //limit search
+    [tesseract setImage:newImage]; //image to check
+    [tesseract recognize];
+    
+    NSLog(@"%@", [tesseract recognizedText]);
 
 }
 
