@@ -18,6 +18,9 @@ using namespace cv;
 
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (strong, nonatomic) UIImage *originalImage;
+@property (strong, nonatomic) UIImage *perspectiveShiftedImage;
+@property (strong, nonatomic) NSArray *cubeCorners;
 
 @end
 
@@ -27,6 +30,13 @@ using namespace cv;
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+}
+
+-(void) viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    self.originalImage = self.imageView.image;
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -231,6 +241,90 @@ int LineIntersect(Vec4i l1, Vec4i l2)
         CGColorSpaceRelease(colorSpace);
         
         [self.imageView setImage:newImage];
-        
+    
+    self.cubeCorners = @[
+                         [NSNumber numberWithFloat:ul.x],
+                         [NSNumber numberWithFloat:ul.y],
+                         [NSNumber numberWithFloat:ur.x],
+                         [NSNumber numberWithFloat:ur.y],
+                         [NSNumber numberWithFloat:ll.x],
+                         [NSNumber numberWithFloat:ll.y],
+                         [NSNumber numberWithFloat:lr.x],
+                         [NSNumber numberWithFloat:lr.y]
+                         ];
+
+    
     }
+
+- (IBAction)squarePressed:(id)sender {
+    CGColorSpaceRef colorSpace = CGImageGetColorSpace(self.originalImage.CGImage);
+    CGFloat cols = self.originalImage.size.width;
+    CGFloat rows = self.originalImage.size.height;
+    
+    cv::Mat originalMat(rows, cols, CV_8UC4); // 8 bits per component, 4 channels
+    
+    CGContextRef contextRef = CGBitmapContextCreate(originalMat.data,                 // Pointer to backing data
+                                                    cols,                      // Width of bitmap
+                                                    rows,                     // Height of bitmap
+                                                    8,                          // Bits per component
+                                                    originalMat.step[0],              // Bytes per row
+                                                    colorSpace,                 // Colorspace
+                                                    kCGImageAlphaNoneSkipLast |
+                                                    kCGBitmapByteOrderDefault); // Bitmap info flags
+    
+    CGContextDrawImage(contextRef, CGRectMake(0, 0, cols, rows), self.originalImage.CGImage);
+    CGContextRelease(contextRef);
+    
+    Point2f src[4];
+    Point2f dst[4];
+    
+    src[0]=cv::Point([self.cubeCorners[0] floatValue],[self.cubeCorners[1] floatValue]); //upper left
+    src[1]=cv::Point([self.cubeCorners[2] floatValue],[self.cubeCorners[3] floatValue]); //upper right
+    src[2]=cv::Point([self.cubeCorners[4] floatValue],[self.cubeCorners[5] floatValue]); //lower left
+    src[3]=cv::Point([self.cubeCorners[6] floatValue],[self.cubeCorners[7] floatValue]); //lower right
+    
+    dst[0]=cv::Point(0,0);
+    dst[1]=cv::Point(cols,0);
+    dst[2]=cv::Point(0,rows);
+    dst[3]=cv::Point(cols,rows);
+    
+    cv::Mat transform = cv::getPerspectiveTransform(src, dst);
+    
+    cv::Mat transformedimage = Mat::zeros( originalMat.rows, originalMat.cols, originalMat.type() );
+    
+    cv::warpPerspective(originalMat, transformedimage, transform, transformedimage.size() );
+    
+    
+    NSData *data = [NSData dataWithBytes:transformedimage.data length:transformedimage.elemSize() * transformedimage.total()];
+    
+    if (transformedimage.elemSize() == 1) {
+        colorSpace = CGColorSpaceCreateDeviceGray();
+    } else {
+        colorSpace = CGColorSpaceCreateDeviceRGB();
+    }
+    
+    CGDataProviderRef provider = CGDataProviderCreateWithCFData((__bridge CFDataRef)data);
+    
+    CGImageRef imageRef = CGImageCreate(transformedimage.cols,                                     // Width
+                                        transformedimage.rows,                                     // Height
+                                        8,                                              // Bits per component
+                                        8 * transformedimage.elemSize(),                           // Bits per pixel
+                                        transformedimage.step[0],                                  // Bytes per row
+                                        colorSpace,                                     // Colorspace
+                                        kCGImageAlphaNone | kCGBitmapByteOrderDefault,  // Bitmap info flags
+                                        provider,                                       // CGDataProviderRef
+                                        NULL,                                           // Decode
+                                        false,                                          // Should interpolate
+                                        kCGRenderingIntentDefault);                     // Intent
+    
+    self.perspectiveShiftedImage = [[UIImage alloc] initWithCGImage:imageRef];
+    CGImageRelease(imageRef);
+    CGDataProviderRelease(provider);
+    CGColorSpaceRelease(colorSpace);
+    
+    [self.imageView setImage:self.perspectiveShiftedImage];
+    
+
+}
+
 @end
