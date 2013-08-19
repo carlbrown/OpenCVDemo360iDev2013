@@ -22,7 +22,6 @@ using namespace cv;
 @property (strong, nonatomic) UIImage *originalImage;
 @property (strong, nonatomic) UIImage *perspectiveShiftedImage;
 @property (strong, nonatomic) NSArray *cubeCorners;
-
 @end
 
 @implementation ViewController
@@ -285,13 +284,13 @@ int LineIntersect(Vec4i l1, Vec4i l2)
     src[3]=cv::Point([self.cubeCorners[6] floatValue],[self.cubeCorners[7] floatValue]); //lower right
     
     dst[0]=cv::Point(0,0);
-    dst[1]=cv::Point(cols,0);
-    dst[2]=cv::Point(0,rows);
-    dst[3]=cv::Point(cols,rows);
+    dst[1]=cv::Point(self.imageView.frame.size.width,0);
+    dst[2]=cv::Point(0,self.imageView.frame.size.height);
+    dst[3]=cv::Point(self.imageView.frame.size.width,self.imageView.frame.size.height);
     
     cv::Mat transform = cv::getPerspectiveTransform(src, dst);
     
-    cv::Mat transformedimage = Mat::zeros( originalMat.rows, originalMat.cols, originalMat.type() );
+    cv::Mat transformedimage = Mat::zeros( self.imageView.frame.size.height, self.imageView.frame.size.width, originalMat.type() );
     
     cv::warpPerspective(originalMat, transformedimage, transform, transformedimage.size() );
     
@@ -329,6 +328,24 @@ int LineIntersect(Vec4i l1, Vec4i l2)
 }
 - (IBAction)extractPressed:(id)sender {
     
+    Tesseract* tesseract = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"eng"];
+    //language are used for recognition. Ex: eng. Tesseract will search for a eng.traineddata file in the dataPath directory.
+    //eng.traineddata is in your "tessdata" folder.
+    
+    if (!tesseract) {
+        [[[UIAlertView alloc] initWithTitle:@"Tesseract failed to initialize" message:@"You probably need to go get the tesseract-ocr-3.02.eng.tar.gz file from http://code.google.com/p/tesseract-ocr/downloads/list and extract it in the External/tesseract-data directory. (See README.txt in that dir)" delegate:nil cancelButtonTitle:@"D'oh" otherButtonTitles:nil] show];
+        return;
+    }
+    
+    [tesseract setVariableValue:@"0123456789" forKey:@"tessedit_char_whitelist"]; //limit search
+    
+    NSMutableArray *recognizedText = [NSMutableArray arrayWithCapacity:81];
+//    [tesseract setImage:newImage]; //image to check
+//    [tesseract recognize];
+//    
+//    NSLog(@"%@", [tesseract recognizedText]);
+
+    
     CGColorSpaceRef colorSpace = CGImageGetColorSpace(self.perspectiveShiftedImage.CGImage);
     CGFloat cols = self.perspectiveShiftedImage.size.width;
     CGFloat rows = self.perspectiveShiftedImage.size.height;
@@ -348,24 +365,79 @@ int LineIntersect(Vec4i l1, Vec4i l2)
     CGContextRelease(contextRef);
     
 
-    cv::Mat blankMat = Mat::zeros(rows, cols, shiftedMat.type());
-    blankMat.setTo(cv::Scalar(140,120,120));
+    cv::Mat blankMat = Mat(rows, cols, CV_8UC1, 255);
     
-    int subCubeWidth = cols/9;
-    int subCubeHeight = rows /9;
-    int marginX=subCubeWidth/6;
-    int marginY=subCubeHeight/6;
+    int subCubeWidth = int(cols/9.0f+0.5);
+    int subCubeHeight = int(rows/9.0f+0.5);
+    int marginX=int(subCubeWidth/5.5f+0.5);
+    int marginY=int(subCubeHeight/6.5f+0.5);
     int roiWidth = subCubeWidth - 2* marginX;
     int roiHeight = subCubeHeight - 2* marginY;
     
     //Extraction here from http://opencv-users.1802565.n2.nabble.com/Assign-a-value-to-an-ROI-in-a-Mat-td4540333.html
-    for (int hSlice=0; hSlice<9; hSlice++) {
-        for (int vSlice= 0; vSlice<9; vSlice++) {
+    for (int vSlice= 0; vSlice<9; vSlice++) {
+        for (int hSlice=0; hSlice<9; hSlice++) {
             cv::Rect r(marginX+subCubeWidth*hSlice, marginY+subCubeHeight*vSlice, roiWidth, roiHeight);
+            NSLog(@"Checking %d,%d at (%d,%d,%d,%d)",hSlice,vSlice,marginX+subCubeWidth*hSlice, marginY+subCubeHeight*vSlice, roiWidth, roiHeight
+                  );
             Mat roi(shiftedMat,r);
+            
+            cv::Mat roi_gray;
+            cv::cvtColor(roi, roi_gray, CV_RGB2GRAY);
+
+            
+            cv::Mat thresholdedMat(roiHeight, roiWidth,roi.elemSize());
+            //Thresholding from http://docs.opencv.org/doc/tutorials/imgproc/threshold/threshold.html
+            //If pixel value > mean, set it to 255, otherwise 0
+            cv::Scalar avg = cv::mean(roi_gray);
+            cv::threshold(roi_gray, thresholdedMat, avg[0]*0.8f, 255,0); //binary
 
             Mat dst_roi = blankMat(r);
-            roi.copyTo(dst_roi);
+            thresholdedMat.copyTo(dst_roi);
+
+            CGColorSpaceRef roiColorSpace;
+
+            NSData *roidata = [NSData dataWithBytes:thresholdedMat.data length:thresholdedMat.elemSize() * thresholdedMat.total()];
+            
+            if (thresholdedMat.elemSize() == 1) {
+                roiColorSpace = CGColorSpaceCreateDeviceGray();
+            } else {
+                roiColorSpace = CGColorSpaceCreateDeviceRGB();
+            }
+            
+            CGDataProviderRef roiprovider = CGDataProviderCreateWithCFData((__bridge CFDataRef)roidata);
+            
+            CGImageRef roiImageRef = CGImageCreate(thresholdedMat.cols,                                     // Width
+                                                thresholdedMat.rows,                                     // Height
+                                                8,                                              // Bits per component
+                                                8 * thresholdedMat.elemSize(),                           // Bits per pixel
+                                                thresholdedMat.step[0],                                  // Bytes per row
+                                                roiColorSpace,                                     // Colorspace
+                                                kCGImageAlphaNone | kCGBitmapByteOrderDefault,  // Bitmap info flags
+                                                roiprovider,                                       // CGDataProviderRef
+                                                NULL,                                           // Decode
+                                                false,                                          // Should interpolate
+                                                kCGRenderingIntentDefault);                     // Intent
+            UIImage *imageToParse = [[UIImage alloc] initWithCGImage:roiImageRef];
+            
+            [tesseract setImage:imageToParse]; //image to check
+            [tesseract recognize];
+            
+            NSString *recognizedString=[tesseract recognizedText];
+            NSLog(@"recognied '%@'",recognizedString);
+
+            if (!recognizedString) {
+                recognizedString=@" ";
+            }
+            //Remove Stray Linefeeds
+            recognizedString = [recognizedString stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+
+            
+            [recognizedText addObject:recognizedString];
+
+            CGImageRelease(roiImageRef);
+            CGDataProviderRelease(roiprovider);
+            CGColorSpaceRelease(roiColorSpace);
 
         }
     }
@@ -399,16 +471,7 @@ int LineIntersect(Vec4i l1, Vec4i l2)
     
     [self.imageView setImage:newImage];
 
-#warning Must get data from http://code.google.com/p/tesseract-ocr/downloads/list
-    Tesseract* tesseract = [[Tesseract alloc] initWithDataPath:@"tessdata" language:@"eng"];
-    //language are used for recognition. Ex: eng. Tesseract will search for a eng.traineddata file in the dataPath directory.
-    //eng.traineddata is in your "tessdata" folder.
-    
-    [tesseract setVariableValue:@"0123456789" forKey:@"tessedit_char_whitelist"]; //limit search
-    [tesseract setImage:newImage]; //image to check
-    [tesseract recognize];
-    
-    NSLog(@"%@", [tesseract recognizedText]);
+    NSLog(@"recognized text was '%@'",recognizedText);
 
 }
 
