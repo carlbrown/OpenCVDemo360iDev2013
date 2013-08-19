@@ -285,13 +285,13 @@ int LineIntersect(Vec4i l1, Vec4i l2)
     src[3]=cv::Point([self.cubeCorners[6] floatValue],[self.cubeCorners[7] floatValue]); //lower right
     
     dst[0]=cv::Point(0,0);
-    dst[1]=cv::Point(cols,0);
-    dst[2]=cv::Point(0,rows);
-    dst[3]=cv::Point(cols,rows);
+    dst[1]=cv::Point(self.imageView.frame.size.width,0);
+    dst[2]=cv::Point(0,self.imageView.frame.size.height);
+    dst[3]=cv::Point(self.imageView.frame.size.width,self.imageView.frame.size.height);
     
     cv::Mat transform = cv::getPerspectiveTransform(src, dst);
     
-    cv::Mat transformedimage = Mat::zeros( originalMat.rows, originalMat.cols, originalMat.type() );
+    cv::Mat transformedimage = Mat::zeros( self.imageView.frame.size.height, self.imageView.frame.size.width, originalMat.type() );
     
     cv::warpPerspective(originalMat, transformedimage, transform, transformedimage.size() );
 
@@ -352,12 +352,13 @@ int LineIntersect(Vec4i l1, Vec4i l2)
 
     //Get Average color from http://answers.opencv.org/question/10758/get-the-average-color-of-image-inside-the/
     
-    int subCubeWidth = cols/3;
-    int subCubeHeight = rows /3;
-    int marginX=subCubeWidth/5;
-    int marginY=subCubeHeight/5;
+    int subCubeWidth = int(cols/3.0f+0.5);
+    int subCubeHeight = int(rows/3.0f+0.5);
+    int marginX=int(subCubeWidth/5.0f+0.5);
+    int marginY=int(subCubeHeight/5.0f+0.5);
     int roiWidth = subCubeWidth - 2* marginX;
     int roiHeight = subCubeHeight - 2* marginY;
+
     
     //Extraction here from http://opencv-users.1802565.n2.nabble.com/Assign-a-value-to-an-ROI-in-a-Mat-td4540333.html
     for (int hSlice=0; hSlice<3; hSlice++) {
