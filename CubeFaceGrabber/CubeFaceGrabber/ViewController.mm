@@ -370,11 +370,35 @@ int LineIntersect(Vec4i l1, Vec4i l2)
             //Put text from http://stackoverflow.com/questions/5175628/how-to-overlay-text-on-image-when-working-with-cvmat-type
             if (avgColor[1] < 10) {
                 //No Saturation - must be white
-                cv::putText(roi, [[NSString stringWithFormat:@"White@%d,%d",hSlice,vSlice] cStringUsingEncoding:NSASCIIStringEncoding], cvPoint(0,30),
-                            FONT_HERSHEY_COMPLEX_SMALL, 0.8, cvScalar(0,0,0), 1, CV_AA);
+                cv::putText(roi, [[NSString stringWithFormat:@"%d,%d=%.0f",hSlice,vSlice,avgColor[1]] cStringUsingEncoding:NSASCIIStringEncoding], cvPoint(0,10),
+                            FONT_HERSHEY_COMPLEX_SMALL, 0.6, cvScalar(0,0,0), 1, CV_AA);
+                cv::putText(roi, [@"White" cStringUsingEncoding:NSASCIIStringEncoding], cvPoint(0,30),
+                            FONT_HERSHEY_COMPLEX_SMALL, 0.6, cvScalar(0,0,0), 1, CV_AA);
             } else {
-                cv::putText(roi, [[NSString stringWithFormat:@"%d,%d=%.0f",hSlice,vSlice,avgColor[0]] cStringUsingEncoding:NSASCIIStringEncoding], cvPoint(0,30),
-                            FONT_HERSHEY_COMPLEX_SMALL, 0.6, cvScalar(200,200,200), 1, CV_AA);
+                cv::putText(roi, [[NSString stringWithFormat:@"%d,%d=%.0f",hSlice,vSlice,avgColor[0]] cStringUsingEncoding:NSASCIIStringEncoding], cvPoint(0,10),
+                            FONT_HERSHEY_COMPLEX_SMALL, 0.5, cvScalar(200,200,200), 1, CV_AA);
+                NSString *color=@"unknown";
+                CGFloat hue =avgColor[0];
+                if (hue < 10) {
+                    color=@"orange";
+                } else if (hue > 10 && hue < 30) {
+                    color=@"yellow";
+                } else if (hue > 55 && hue < 65) {
+                    color=@"green";
+                } else if (hue > 115 && hue < 130) {
+                    color=@"blue";
+                } else if (hue > 170 && hue < 190) {
+                    color=@"red";
+                }
+                cv::putText(roi, [color cStringUsingEncoding:NSASCIIStringEncoding], cvPoint(0,30),
+                            FONT_HERSHEY_COMPLEX_SMALL, 0.6, cvScalar(0,0,0), 1, CV_AA);
+
+                Mat rgbroi;
+                cvtColor(roi, rgbroi, CV_HSV2RGB);
+                cv::Scalar avgColorRGB=cv::mean(rgbroi); //Average Color
+                cv::putText(roi, [[NSString stringWithFormat:@"%.0f/%.0f/%.0f",avgColorRGB[0],avgColorRGB[1],avgColorRGB[2]] cStringUsingEncoding:NSASCIIStringEncoding], cvPoint(0,50),
+                            FONT_HERSHEY_COMPLEX_SMALL, 0.5, cvScalar(200,200,200), 1, CV_AA);
+
             }
         }
     }
