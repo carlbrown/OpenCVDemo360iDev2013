@@ -1,0 +1,494 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D39FFF4D17CAD5450036A0EF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D39FFF4C17CAD5450036A0EF /* UIKit.framework */; };
+		D39FFF4F17CAD5450036A0EF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D39FFF4E17CAD5450036A0EF /* Foundation.framework */; };
+		D39FFF5117CAD5450036A0EF /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D39FFF5017CAD5450036A0EF /* CoreGraphics.framework */; };
+		D39FFF5717CAD5450036A0EF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D39FFF5517CAD5450036A0EF /* InfoPlist.strings */; };
+		D39FFF5917CAD5450036A0EF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D39FFF5817CAD5450036A0EF /* main.m */; };
+		D39FFF5D17CAD5450036A0EF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D39FFF5C17CAD5450036A0EF /* AppDelegate.m */; };
+		D39FFF5F17CAD5450036A0EF /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = D39FFF5E17CAD5450036A0EF /* Default.png */; };
+		D39FFF6117CAD5450036A0EF /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D39FFF6017CAD5450036A0EF /* Default@2x.png */; };
+		D39FFF6317CAD5450036A0EF /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D39FFF6217CAD5450036A0EF /* Default-568h@2x.png */; };
+		D39FFF6617CAD5450036A0EF /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = D39FFF6517CAD5450036A0EF /* ViewController.mm */; };
+		D39FFF6917CAD5450036A0EF /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D39FFF6717CAD5450036A0EF /* ViewController.xib */; };
+		D39FFF7117CAD5450036A0EF /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D39FFF7017CAD5450036A0EF /* SenTestingKit.framework */; };
+		D39FFF7217CAD5450036A0EF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D39FFF4C17CAD5450036A0EF /* UIKit.framework */; };
+		D39FFF7317CAD5450036A0EF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D39FFF4E17CAD5450036A0EF /* Foundation.framework */; };
+		D39FFF7B17CAD5450036A0EF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D39FFF7917CAD5450036A0EF /* InfoPlist.strings */; };
+		D39FFF7E17CAD5450036A0EF /* ColorSwatchesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D39FFF7D17CAD5450036A0EF /* ColorSwatchesTests.m */; };
+		D39FFF8817CAD6240036A0EF /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D39FFF8717CAD6240036A0EF /* opencv2.framework */; };
+		D39FFF8E17CAD9860036A0EF /* UIImage+OpenCV.mm in Sources */ = {isa = PBXBuildFile; fileRef = D39FFF8D17CAD9860036A0EF /* UIImage+OpenCV.mm */; };
+		D39FFF9117CADB510036A0EF /* SwatchCreatorOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = D39FFF9017CADB510036A0EF /* SwatchCreatorOperation.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D39FFF7417CAD5450036A0EF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D39FFF4117CAD5450036A0EF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D39FFF4817CAD5450036A0EF;
+			remoteInfo = ColorSwatches;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		D39FFF4917CAD5450036A0EF /* ColorSwatches.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ColorSwatches.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D39FFF4C17CAD5450036A0EF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		D39FFF4E17CAD5450036A0EF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		D39FFF5017CAD5450036A0EF /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		D39FFF5417CAD5450036A0EF /* ColorSwatches-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ColorSwatches-Info.plist"; sourceTree = "<group>"; };
+		D39FFF5617CAD5450036A0EF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D39FFF5817CAD5450036A0EF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		D39FFF5A17CAD5450036A0EF /* ColorSwatches-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ColorSwatches-Prefix.pch"; sourceTree = "<group>"; };
+		D39FFF5B17CAD5450036A0EF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		D39FFF5C17CAD5450036A0EF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		D39FFF5E17CAD5450036A0EF /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		D39FFF6017CAD5450036A0EF /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		D39FFF6217CAD5450036A0EF /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		D39FFF6417CAD5450036A0EF /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		D39FFF6517CAD5450036A0EF /* ViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewController.mm; sourceTree = "<group>"; };
+		D39FFF6817CAD5450036A0EF /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController.xib; sourceTree = "<group>"; };
+		D39FFF6F17CAD5450036A0EF /* ColorSwatchesTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ColorSwatchesTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D39FFF7017CAD5450036A0EF /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		D39FFF7817CAD5450036A0EF /* ColorSwatchesTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ColorSwatchesTests-Info.plist"; sourceTree = "<group>"; };
+		D39FFF7A17CAD5450036A0EF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D39FFF7C17CAD5450036A0EF /* ColorSwatchesTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ColorSwatchesTests.h; sourceTree = "<group>"; };
+		D39FFF7D17CAD5450036A0EF /* ColorSwatchesTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ColorSwatchesTests.m; sourceTree = "<group>"; };
+		D39FFF8717CAD6240036A0EF /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = opencv2.framework; path = ../External/opencv2.framework; sourceTree = "<group>"; };
+		D39FFF8C17CAD9860036A0EF /* UIImage+OpenCV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+OpenCV.h"; sourceTree = "<group>"; };
+		D39FFF8D17CAD9860036A0EF /* UIImage+OpenCV.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "UIImage+OpenCV.mm"; sourceTree = "<group>"; };
+		D39FFF8F17CADB510036A0EF /* SwatchCreatorOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwatchCreatorOperation.h; sourceTree = "<group>"; };
+		D39FFF9017CADB510036A0EF /* SwatchCreatorOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwatchCreatorOperation.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D39FFF4617CAD5450036A0EF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D39FFF8817CAD6240036A0EF /* opencv2.framework in Frameworks */,
+				D39FFF4D17CAD5450036A0EF /* UIKit.framework in Frameworks */,
+				D39FFF4F17CAD5450036A0EF /* Foundation.framework in Frameworks */,
+				D39FFF5117CAD5450036A0EF /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D39FFF6B17CAD5450036A0EF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D39FFF7117CAD5450036A0EF /* SenTestingKit.framework in Frameworks */,
+				D39FFF7217CAD5450036A0EF /* UIKit.framework in Frameworks */,
+				D39FFF7317CAD5450036A0EF /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D39FFF4017CAD5450036A0EF = {
+			isa = PBXGroup;
+			children = (
+				D39FFF5217CAD5450036A0EF /* ColorSwatches */,
+				D39FFF7617CAD5450036A0EF /* ColorSwatchesTests */,
+				D39FFF4B17CAD5450036A0EF /* Frameworks */,
+				D39FFF4A17CAD5450036A0EF /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D39FFF4A17CAD5450036A0EF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D39FFF4917CAD5450036A0EF /* ColorSwatches.app */,
+				D39FFF6F17CAD5450036A0EF /* ColorSwatchesTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D39FFF4B17CAD5450036A0EF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D39FFF8717CAD6240036A0EF /* opencv2.framework */,
+				D39FFF4C17CAD5450036A0EF /* UIKit.framework */,
+				D39FFF4E17CAD5450036A0EF /* Foundation.framework */,
+				D39FFF5017CAD5450036A0EF /* CoreGraphics.framework */,
+				D39FFF7017CAD5450036A0EF /* SenTestingKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D39FFF5217CAD5450036A0EF /* ColorSwatches */ = {
+			isa = PBXGroup;
+			children = (
+				D39FFF5B17CAD5450036A0EF /* AppDelegate.h */,
+				D39FFF5C17CAD5450036A0EF /* AppDelegate.m */,
+				D39FFF6417CAD5450036A0EF /* ViewController.h */,
+				D39FFF6517CAD5450036A0EF /* ViewController.mm */,
+				D39FFF6717CAD5450036A0EF /* ViewController.xib */,
+				D39FFF5317CAD5450036A0EF /* Supporting Files */,
+				D39FFF8C17CAD9860036A0EF /* UIImage+OpenCV.h */,
+				D39FFF8D17CAD9860036A0EF /* UIImage+OpenCV.mm */,
+				D39FFF8F17CADB510036A0EF /* SwatchCreatorOperation.h */,
+				D39FFF9017CADB510036A0EF /* SwatchCreatorOperation.m */,
+			);
+			path = ColorSwatches;
+			sourceTree = "<group>";
+		};
+		D39FFF5317CAD5450036A0EF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D39FFF5417CAD5450036A0EF /* ColorSwatches-Info.plist */,
+				D39FFF5517CAD5450036A0EF /* InfoPlist.strings */,
+				D39FFF5817CAD5450036A0EF /* main.m */,
+				D39FFF5A17CAD5450036A0EF /* ColorSwatches-Prefix.pch */,
+				D39FFF5E17CAD5450036A0EF /* Default.png */,
+				D39FFF6017CAD5450036A0EF /* Default@2x.png */,
+				D39FFF6217CAD5450036A0EF /* Default-568h@2x.png */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D39FFF7617CAD5450036A0EF /* ColorSwatchesTests */ = {
+			isa = PBXGroup;
+			children = (
+				D39FFF7C17CAD5450036A0EF /* ColorSwatchesTests.h */,
+				D39FFF7D17CAD5450036A0EF /* ColorSwatchesTests.m */,
+				D39FFF7717CAD5450036A0EF /* Supporting Files */,
+			);
+			path = ColorSwatchesTests;
+			sourceTree = "<group>";
+		};
+		D39FFF7717CAD5450036A0EF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D39FFF7817CAD5450036A0EF /* ColorSwatchesTests-Info.plist */,
+				D39FFF7917CAD5450036A0EF /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D39FFF4817CAD5450036A0EF /* ColorSwatches */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D39FFF8117CAD5450036A0EF /* Build configuration list for PBXNativeTarget "ColorSwatches" */;
+			buildPhases = (
+				D39FFF4517CAD5450036A0EF /* Sources */,
+				D39FFF4617CAD5450036A0EF /* Frameworks */,
+				D39FFF4717CAD5450036A0EF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ColorSwatches;
+			productName = ColorSwatches;
+			productReference = D39FFF4917CAD5450036A0EF /* ColorSwatches.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D39FFF6E17CAD5450036A0EF /* ColorSwatchesTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D39FFF8417CAD5450036A0EF /* Build configuration list for PBXNativeTarget "ColorSwatchesTests" */;
+			buildPhases = (
+				D39FFF6A17CAD5450036A0EF /* Sources */,
+				D39FFF6B17CAD5450036A0EF /* Frameworks */,
+				D39FFF6C17CAD5450036A0EF /* Resources */,
+				D39FFF6D17CAD5450036A0EF /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D39FFF7517CAD5450036A0EF /* PBXTargetDependency */,
+			);
+			name = ColorSwatchesTests;
+			productName = ColorSwatchesTests;
+			productReference = D39FFF6F17CAD5450036A0EF /* ColorSwatchesTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D39FFF4117CAD5450036A0EF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = PDAgent;
+			};
+			buildConfigurationList = D39FFF4417CAD5450036A0EF /* Build configuration list for PBXProject "ColorSwatches" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = D39FFF4017CAD5450036A0EF;
+			productRefGroup = D39FFF4A17CAD5450036A0EF /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D39FFF4817CAD5450036A0EF /* ColorSwatches */,
+				D39FFF6E17CAD5450036A0EF /* ColorSwatchesTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D39FFF4717CAD5450036A0EF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D39FFF5717CAD5450036A0EF /* InfoPlist.strings in Resources */,
+				D39FFF5F17CAD5450036A0EF /* Default.png in Resources */,
+				D39FFF6117CAD5450036A0EF /* Default@2x.png in Resources */,
+				D39FFF6317CAD5450036A0EF /* Default-568h@2x.png in Resources */,
+				D39FFF6917CAD5450036A0EF /* ViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D39FFF6C17CAD5450036A0EF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D39FFF7B17CAD5450036A0EF /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		D39FFF6D17CAD5450036A0EF /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D39FFF4517CAD5450036A0EF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D39FFF5917CAD5450036A0EF /* main.m in Sources */,
+				D39FFF5D17CAD5450036A0EF /* AppDelegate.m in Sources */,
+				D39FFF6617CAD5450036A0EF /* ViewController.mm in Sources */,
+				D39FFF8E17CAD9860036A0EF /* UIImage+OpenCV.mm in Sources */,
+				D39FFF9117CADB510036A0EF /* SwatchCreatorOperation.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D39FFF6A17CAD5450036A0EF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D39FFF7E17CAD5450036A0EF /* ColorSwatchesTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D39FFF7517CAD5450036A0EF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D39FFF4817CAD5450036A0EF /* ColorSwatches */;
+			targetProxy = D39FFF7417CAD5450036A0EF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		D39FFF5517CAD5450036A0EF /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D39FFF5617CAD5450036A0EF /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		D39FFF6717CAD5450036A0EF /* ViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D39FFF6817CAD5450036A0EF /* en */,
+			);
+			name = ViewController.xib;
+			sourceTree = "<group>";
+		};
+		D39FFF7917CAD5450036A0EF /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D39FFF7A17CAD5450036A0EF /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		D39FFF7F17CAD5450036A0EF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		D39FFF8017CAD5450036A0EF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D39FFF8217CAD5450036A0EF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../External\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ColorSwatches/ColorSwatches-Prefix.pch";
+				INFOPLIST_FILE = "ColorSwatches/ColorSwatches-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		D39FFF8317CAD5450036A0EF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../External\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ColorSwatches/ColorSwatches-Prefix.pch";
+				INFOPLIST_FILE = "ColorSwatches/ColorSwatches-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		D39FFF8517CAD5450036A0EF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/ColorSwatches.app/ColorSwatches";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ColorSwatches/ColorSwatches-Prefix.pch";
+				INFOPLIST_FILE = "ColorSwatchesTests/ColorSwatchesTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		D39FFF8617CAD5450036A0EF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/ColorSwatches.app/ColorSwatches";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ColorSwatches/ColorSwatches-Prefix.pch";
+				INFOPLIST_FILE = "ColorSwatchesTests/ColorSwatchesTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D39FFF4417CAD5450036A0EF /* Build configuration list for PBXProject "ColorSwatches" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D39FFF7F17CAD5450036A0EF /* Debug */,
+				D39FFF8017CAD5450036A0EF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D39FFF8117CAD5450036A0EF /* Build configuration list for PBXNativeTarget "ColorSwatches" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D39FFF8217CAD5450036A0EF /* Debug */,
+				D39FFF8317CAD5450036A0EF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D39FFF8417CAD5450036A0EF /* Build configuration list for PBXNativeTarget "ColorSwatchesTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D39FFF8517CAD5450036A0EF /* Debug */,
+				D39FFF8617CAD5450036A0EF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D39FFF4117CAD5450036A0EF /* Project object */;
+}
