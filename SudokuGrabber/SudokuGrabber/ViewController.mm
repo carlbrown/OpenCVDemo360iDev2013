@@ -427,13 +427,22 @@ int LineIntersect(Vec4i l1, Vec4i l2)
             NSLog(@"recognied '%@'",recognizedString);
 
             if (!recognizedString) {
-                recognizedString=@" ";
+                recognizedString=@"";
             }
             //Remove Stray Linefeeds
             recognizedString = [recognizedString stringByReplacingOccurrencesOfString:@"\n" withString:@""];
 
             
             [recognizedText addObject:recognizedString];
+            
+            if ([recognizedString length] > 0) {
+                UILabel *recognizedLabel = [[UILabel alloc] initWithFrame:CGRectMake(marginX+subCubeWidth*hSlice, marginY+subCubeHeight*vSlice, roiWidth, roiHeight)];
+                [recognizedLabel setText:recognizedString];
+                [recognizedLabel setTextColor:[UIColor colorWithRed:1 green:0 blue:0 alpha:0.8]];
+                [recognizedLabel setFont:[UIFont boldSystemFontOfSize:24]];
+                [recognizedLabel setBackgroundColor:[UIColor clearColor]];
+                [self.view addSubview:recognizedLabel];
+            }
 
             CGImageRelease(roiImageRef);
             CGDataProviderRelease(roiprovider);

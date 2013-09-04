@@ -63,33 +63,38 @@ CascadeClassifier face_cascade;
     for (UIView *subView in self.facesImageView.subviews) {
         [subView removeFromSuperview];
     }
+    
+UIImage *image = [self.facesImageView image];
+CIImage *ciImage = [CIImage imageWithCGImage:image.CGImage];
+CIDetector *detector = [CIDetector detectorOfType:CIDetectorTypeFace
+                                          context:nil options:[NSDictionary dictionaryWithObject:CIDetectorAccuracyHigh forKey:CIDetectorAccuracy]];
+NSArray *features = [detector featuresInImage:ciImage];
+[self.countLabel setText:[NSString stringWithFormat:@"CoreImage found %d faces",[features count]]];
 
-    UIImage *image = [self.facesImageView image];
-    CIImage *ciImage = [CIImage imageWithCGImage:image.CGImage];
-    CIDetector *detector = [CIDetector detectorOfType:CIDetectorTypeFace
-                                              context:nil options:[NSDictionary dictionaryWithObject:CIDetectorAccuracyHigh forKey:CIDetectorAccuracy]];
-    NSArray *features = [detector featuresInImage:ciImage];
-    [self.countLabel setText:[NSString stringWithFormat:@"CoreImage found %d faces",[features count]]];
-
-    for(CIFaceFeature* faceFeature in features)
-    {
-        
-        // create a UIView using the bounds of the face
-        CGRect frame = faceFeature.bounds;
-        frame.size.width *= [self contentScaleFactor];
-        frame.size.height *= [self contentScaleFactor];
-        frame.origin.x *= [self contentScaleFactor];
-        frame.origin.y *= [self contentScaleFactor];
-        frame.origin.y = image.size.height*[self contentScaleFactor] - frame.origin.y - frame.size.height; //flip to CIImage Coords
-        UIView* faceView = [[UIView alloc] initWithFrame:frame];
-        
-        // add a border around the newly created UIView
-        faceView.layer.borderWidth = 1;
-        faceView.layer.borderColor = [[UIColor redColor] CGColor];
-        
-        // add the new view to create a box around the face
-        [self.facesImageView addSubview:faceView];
-    }
+for(CIFaceFeature* faceFeature in features)
+{
+    
+    // create a UIView using the bounds of the face
+    CGRect frame = faceFeature.bounds;
+    
+    //Scale For Retina
+    frame.size.width *= [self contentScaleFactor];
+    frame.size.height *= [self contentScaleFactor];
+    frame.origin.x *= [self contentScaleFactor];
+    frame.origin.y *= [self contentScaleFactor];
+    
+    //flip to CIImage Coords
+    frame.origin.y = image.size.height*[self contentScaleFactor] - frame.origin.y - frame.size.height;
+    
+    UIView* faceView = [[UIView alloc] initWithFrame:frame];
+    
+    // add a border around the newly created UIView
+    faceView.layer.borderWidth = 4;
+    faceView.layer.borderColor = [[UIColor redColor] CGColor];
+    
+    // add the new view to create a box around the face
+    [self.facesImageView addSubview:faceView];
+}
 }
 
 - (IBAction)openCVButtonPressed:(id)sender {
@@ -139,7 +144,7 @@ CascadeClassifier face_cascade;
         UIView* faceView = [[UIView alloc] initWithFrame:frame];
         
         // add a border around the newly created UIView
-        faceView.layer.borderWidth = 1;
+        faceView.layer.borderWidth = 4;
         faceView.layer.borderColor = [[UIColor redColor] CGColor];
         
         // add the new view to create a box around the face
