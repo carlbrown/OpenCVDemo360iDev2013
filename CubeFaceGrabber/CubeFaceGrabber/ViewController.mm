@@ -257,6 +257,8 @@ int LineIntersect(Vec4i l1, Vec4i l2)
 
 }
 - (IBAction)getAndApplyTransformPressed:(id)sender {
+    
+    //See alternate tutorial and method at http://opencv-code.com/tutorials/automatic-perspective-correction-for-quadrilateral-objects/
         
     CGColorSpaceRef colorSpace = CGImageGetColorSpace(self.originalImage.CGImage);
     CGFloat cols = self.originalImage.size.width;
