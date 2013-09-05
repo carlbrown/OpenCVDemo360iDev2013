@@ -139,7 +139,7 @@ int LineIntersect(Vec4i l1, Vec4i l2)
     //From http://docs.opencv.org/doc/tutorials/imgproc/imgtrans/hough_lines/hough_lines.html
     cv::Mat dst, ddst, cdst;
     Canny(cvMat, dst, 100, 200, 3);
-    cvtColor(dst, cdst, CV_GRAY2BGR);
+    cvtColor(dst, cdst, CV_GRAY2RGB);
 
     vector<Vec4i> lines;
     HoughLinesP(dst, lines, 1, CV_PI/180, 50, 50, 10 );
