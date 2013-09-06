@@ -10,3 +10,5 @@ About the Code:
 1. FaceCounter - Uses CoreImage and OpenCV to detect and count faces in a photo
 2. CubeFaceGrabber - Figures out the color squares on one side of a Rubik's cube.  Inspired by [CubeCheater](http://cubecheater.efaller.com)
 3. SudokuGrabber - Figures out the numbers in a Sudoku puzzle.  Inspired by [Sudoku Grab](http://sudokugrab.blogspot.com)
+
+Released under the [MIT license](http://opensource.org/licenses/MIT). 
